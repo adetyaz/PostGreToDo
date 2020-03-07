@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icon-font.css' %}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header shadow-sm bg-transparent">
+                        <h1 class="display-5 text-info">
+                            <i class="icon-basic-todo-pen" style="margin: 2rem 1rem"></i>
+                            Todos
+                        </h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'save_task' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="content" placeholder="Enter a task">
+                                <div class="input-group-append text-info">
+                                    <span class="input-group-text bg-white py-0">
+                                        <button type="submit" class="btn btn-sm text-info">
+                                            <i class="icon-basic-magnifier-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <ul class="list-group">
+                            {% for todo in todos %}
+                                <li class="list-group-item">
+                                    {{ todo.content }}
+                                    <form action="{% url 'delete_task' todo.id %}" method="post" class="float-right d inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn">
+                                            <i class="icon-basic-trashcan text-danger float-right"></i>
+                                        </button>
+                                    </form>
+                                </li>
+                            {% empty %}
+                                <span class="font-italic">No todo item found</span>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
