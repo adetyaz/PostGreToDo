@@ -5,32 +5,8 @@ import logo from './logo.svg';
 import Modal from './components/Modal'
 import './App.css';
 
-const todoItems = [
-      {
-        id: 1,
-        title: "Go to Market",
-        description: "Buy ingredients to prepare dinner",
-        completed: true
-      },
-      {
-        id: 2,
-        title: "Study",
-        description: "Read Algebra and History textbook for upcoming test",
-        completed: false
-      },
-      {
-        id: 3,
-        title: "Sally's books",
-        description: "Go to library to rent sally's books",
-        completed: true
-      },
-      {
-        id: 4,
-        title: "Article",
-        description: "Write article on how to use django with react",
-        completed: false
-      }
-    ];
+const todoItems = [];
+
 
 class App extends Component{
     constructor(props){
@@ -46,6 +22,8 @@ class App extends Component{
             todoList: todoItems
         };
     }
+
+
 
     componentDidMount(){
         this.refreshList();
@@ -66,18 +44,19 @@ class App extends Component{
         this.toggle();
         if (item.id) {
           axios
-              .put(`http://localhost:8000/api/todos/${item.id}/`)
-              .then(res => this.refreshList());
+              .put(`http://127.0.0.1:8000/api/todos/${item.id}/`)
+              .then(res => this.refreshList())
+              .catch(err => console.log(err));
           return;
         }
         axios
-            .post("http//localhost:8000/api/todos/", item)
+            .post(`http://127.0.0.1:8000/api/todos/`, item)
             .then(res => this.refreshList());
     };
 
     handleDelete = item => {
         axios
-            .delete(`http//localhost:8000/api/todos/${item.id}/`)
+            .delete(`http://127.0.0.1:8000/api/todos/${item.id}/`)
             .then(res => this.refreshList());
     };
 
